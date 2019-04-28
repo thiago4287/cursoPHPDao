@@ -6,17 +6,23 @@
      public function __construct(){
          $this->conn = new PDO("mysql:dbname=db_php7; host=localhost", "root", "aksb45t8v");
      }
+
+
      //Podemos criar uma função que vai setar vários parâmetros por vez
+     //Usado na função query para setar os parâmetros
      public function setParams($statement, $parameters = array()){
          foreach($parameters as $key=> $value){
-             $this->setParam($key, $value);
+             $this->setParam($statement,$key, $value);
          }
      }
 
+
      //Podemos também criar uma funcção que seta apenas um parâmetro por vez
-     private function setParam($tatement, $key, $value){//Será usando no foreach da função acima
-        $tatement->bindParam($key, $value);
+     private function setParam($statement, $key, $value){//Será usando no foreach da função acima
+      // echo "Valor do statement no 'setparam' : ".var_dump($statement);
+        $statement->bindParam($key, $value);
      }
+
 
 
      //Criamos o método abaixo para executar comando na classe, uma function que recebe o nome 'query' 
@@ -25,21 +31,21 @@
 
      public function query($rawQuery, $params= array()){
         //Abaixo criamos uma variável que vai receber a conexão coma a query
-        $stmt = $this->conn->prepare($rawQuery);
+        $stmtQuery = $this->conn->prepare($rawQuery);
        
         //Aqui eu chamo a função setParams() e passo os parâmetros
-        $this->setParams($stmt, $params);
+        $this->setParams($stmtQuery, $params);
 
-         $stmt->execute();
+         $stmtQuery->execute();
 
-         return $stmt;
+         return $stmtQuery;
    
      }
 
      public function select($rawQuery, $params = array()): array {//retorna um array
-         $stmt = $this->query($rawQuery, $params);
+         $stmtSelect = $this->query($rawQuery, $params);
 
-         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+         return $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
      }
  }
 
