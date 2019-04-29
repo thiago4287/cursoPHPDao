@@ -40,9 +40,17 @@ require_once("config.php");
 
 /////////////////////////////////////////////////
 //ATUALIZANDO DADOS DO BANCO
+// $usuario = new Usuario();
+// $usuario->loadById(1);
+// $usuario->update("Abel Braga Junior", "cricri");
+
+// echo $usuario;
+
+/////////////////////////////////////////////////////
+
 $usuario = new Usuario();
-$usuario->loadById(1);
-$usuario->update("Abel Braga Junior", "cricri");
+$usuario->loadById(21);
+$usuario->delete();
 
 echo $usuario;
 

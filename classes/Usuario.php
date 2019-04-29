@@ -138,6 +138,23 @@ class Usuario {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
+    //IMPLEMENTAÇÃO DO MÉTODO DELETE
+
+    public function delete(){
+        $sql = new Sql();
+      
+        //O  DELETE  não tem '*' pq se refere a linha e não as colunas, q também serão apagadas com as linhas
+        $sql->query("DELETE FROM tb_usuarios WHERE idusuario = :ID", array(
+            ':ID'=>$this->getIdusuario()
+        ));
+
+        $this->setIdusuario(0);
+        $this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDtcadastro(new DateTime());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     //IMPLEMENTAÇÃO DO TOSTRING
 
     public function __toString(){
