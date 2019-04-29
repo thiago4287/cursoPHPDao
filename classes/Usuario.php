@@ -54,10 +54,10 @@ class Usuario {
         $sql = new Sql();
 
         $result = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(
-            ":ID"=>$id));
+            ':ID'=>$id));
 
             if(count($result) > 0){
-              $this->setData($resultado);
+              $this->setData($result[0]);
             }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,16 +105,36 @@ class Usuario {
     //IMPLEMENTAÇÃO DO MÉTODO INSERT
 
     public function insert(){
+
         $sql = new Sql();
         //O select está usando uma procedure que está no banco de dados
         $result = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
             ':LOGIN'=>$this->getDeslogin(),
             ':PASSWORD'=>$this->getDessenha()
         ));
-
         if(count($result) > 0){
             $this->setData($result[0]);
         }
+
+      
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //IMPLEMENTAÇÃO DO MÉTODO UPDATE
+
+    public function update($login, $senha){
+        $this->setDeslogin($login);
+        $this->setDessenha($senha);
+    
+
+        $sql = new Sql();
+
+        $sql->query(" UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDessenha(),
+            ':ID'=>$this->getIdusuario()
+        ));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////

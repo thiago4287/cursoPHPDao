@@ -34,8 +34,16 @@ require_once("config.php");
 /////////////////////////////////////////////
 //INSERINDO UM USUARIO UTILIZANDO A PROCEDURE DO METODO PARA INSERIR E TRAZER O ID SETADO
 
-$aluno = new Usuario("Kleber Silva", "329433");
-$aluno->insert();
-echo $aluno;
+// $aluno = new Usuario("Kleber Silva", "329433");
+// $aluno->insert();
+// echo $aluno;
+
+/////////////////////////////////////////////////
+//ATUALIZANDO DADOS DO BANCO
+$usuario = new Usuario();
+$usuario->loadById(1);
+$usuario->update("Abel Braga Junior", "cricri");
+
+echo $usuario;
 
 ?>
