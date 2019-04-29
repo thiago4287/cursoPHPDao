@@ -2,8 +2,33 @@
 
 require_once("config.php");
 
-$usuario = new Usuario();
+//Retorna um único usuário
 
-$usuario->loadById(18);
+// $usuario = new Usuario();
+// $usuario->loadById(18);
+// echo $usuario;
+
+//////////////////////////////////////////
+
+//Carrega uma lista de usuarios
+//Não preciso instanciar a classe Usuario pois o método é estático
+
+// $lista = Usuario::listaUsuarios(); 
+// echo json_encode($lista);
+
+//////////////////////////////////////////
+
+//Retorna usuarios por like
+// echo "<br><br> Lista de like<br><br>";
+// $search = Usuario::search("ar");
+// echo json_encode($search);
+
+///////////////////////////////////////////
+//Buncar o usuario por login e senha
+
+$usuario = new Usuario();
+$usuario->login("Armando Volta", "12345");
+
 echo $usuario;
+
 ?>

@@ -50,6 +50,47 @@ class Usuario {
                 $this->setDtcadastro(new DateTime($valor['dtcadastro']));
             }
     }
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//IMPLEMENTAÇÃO DA FUNÇÃO LISTAR
+
+    public static function listaUsuarios(){//Método estático, posso acessar diretamente com o ::listaUsuarios
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin");
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//IMPLEMENTAÇÃO DA FUNÇÃO PROCURAR POR LOGIN
+
+    public static function search($login){
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin",
+        array(':SEARCH'=>"%".$login."%"));
+
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//IMPLEMENTAÇÃO DO LOGIN
+
+    public function login($login, $password){
+        $sql = new Sql();
+        $resultado = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :SENHA",
+        array(':LOGIN'=>$login, ':SENHA'=>$password));
+
+        if(count($resultado) > 0){
+            $valor = $resultado[0];
+
+            $this->setIdusuario($valor['idusuario']);
+            $this->setDeslogin($valor['deslogin']);
+            $this->setDessenha($valor['dessenha']);
+            $this->setDtcadastro(new DateTime($valor['dtcadastro']));
+
+        }else {
+            throw new Exception("Login e/ou senha inválidos!");
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //IMPLEMENTAÇÃO DO TOSTRING
 
     public function __toString(){
         return json_encode(array(
