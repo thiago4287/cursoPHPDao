@@ -5,7 +5,7 @@
 //Este construtor permite que ao instanciar a classe Sql, eu já recebo a conexao com o mysql
      public function __construct(){
          $this->conn = new PDO("mysql:dbname=db_php7; host=localhost", "root", "aksb45t8v");
-         //$this->conn->query("SET NAMES utf-8;");//Setar caso não apareça dados no json_encode
+         $this->conn->query("SET NAMES utf8;");//Setar caso não apareça dados no json_encode
      }
 
 

@@ -34,7 +34,22 @@ class Usuario {
         $this->dtcadastro = $data;
     }
 
+    public function __construct($login = "", $senha = ""){
+        $this->setDeslogin($login);
+        $this->setDessenha($senha);
+    }
 
+    /////////////////////////////////////////////////////////////////////////////////
+    //Função para setar os dados quando for solicitado
+
+    public function setData($dados){
+        $this->setIdusuario($dados['idusuario']);
+        $this->setDeslogin($dados['deslogin']);
+        $this->setDessenha($dados['dessenha']);
+        $this->setDtcadastro(new DateTime($dados['dtcadastro']));
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
     public function loadById($id){
         $sql = new Sql();
 
@@ -42,12 +57,7 @@ class Usuario {
             ":ID"=>$id));
 
             if(count($result) > 0){
-                $valor = $result[0];
-
-                $this->setIdusuario($valor['idusuario']);
-                $this->setDeslogin($valor['deslogin']);
-                $this->setDessenha($valor['dessenha']);
-                $this->setDtcadastro(new DateTime($valor['dtcadastro']));
+              $this->setData($resultado);
             }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,15 +87,33 @@ class Usuario {
         array(':LOGIN'=>$login, ':SENHA'=>$password));
 
         if(count($resultado) > 0){
-            $valor = $resultado[0];
+            // $valor = $resultado[0];
 
-            $this->setIdusuario($valor['idusuario']);
-            $this->setDeslogin($valor['deslogin']);
-            $this->setDessenha($valor['dessenha']);
-            $this->setDtcadastro(new DateTime($valor['dtcadastro']));
+            // $this->setIdusuario($valor['idusuario']);
+            // $this->setDeslogin($valor['deslogin']);
+            // $this->setDessenha($valor['dessenha']);
+            // $this->setDtcadastro(new DateTime($valor['dtcadastro']));
+            $this->setData($resultado[0]);
 
         }else {
             throw new Exception("Login e/ou senha inválidos!");
+        }
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //IMPLEMENTAÇÃO DO MÉTODO INSERT
+
+    public function insert(){
+        $sql = new Sql();
+        //O select está usando uma procedure que está no banco de dados
+        $result = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDessenha()
+        ));
+
+        if(count($result) > 0){
+            $this->setData($result[0]);
         }
     }
 

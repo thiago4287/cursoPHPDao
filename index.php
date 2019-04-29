@@ -26,9 +26,16 @@ require_once("config.php");
 ///////////////////////////////////////////
 //Buncar o usuario por login e senha
 
-$usuario = new Usuario();
-$usuario->login("Armando Volta", "12345");
+ //$usuario = new Usuario();
+// $usuario->login("Renato Gaúcho", "qwert");
+//Renato GaÃºcho
+//echo $usuario;
 
-echo $usuario;
+/////////////////////////////////////////////
+//INSERINDO UM USUARIO UTILIZANDO A PROCEDURE DO METODO PARA INSERIR E TRAZER O ID SETADO
+
+$aluno = new Usuario("Kleber Silva", "329433");
+$aluno->insert();
+echo $aluno;
 
 ?>
